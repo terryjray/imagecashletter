@@ -596,6 +596,12 @@ func (v *validator) isDigitalSignatureIndicator(code int) error {
 
 // isDigitalSignatureMethod ensures DigitalSignatureMethod of a ImageViewDetail is valid
 func (v *validator) isDigitalSignatureMethod(code string) error {
+
+	// Need to handle the situation where the code is a single 0 by replacing it with 00
+	if code == "0" {
+		code = "00"
+	}
+
 	switch code {
 	case
 		// 00: Digital Signature Algorithm (DSA) with SHA1 (ANSI X9.30)
