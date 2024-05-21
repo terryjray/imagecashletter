@@ -256,6 +256,8 @@ func (v *validator) isReturnsIndicator(code string) error {
 		"E",
 		// Customer–items being returned that directly affect a customer’s account.
 		"R",
+		// Jack Henry can't fix their own code
+		"N",
 		// Reject Return
 		"J":
 		return nil
