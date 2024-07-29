@@ -378,7 +378,9 @@ func (v *validator) isArchiveTypeIndicator(code string) error {
 		// Electronic Check Instrument
 		"H",
 		// None
-		"I":
+		"I",
+		// FNBB hack
+		"0":
 		return nil
 	}
 	return errors.New(msgInvalid)
