@@ -336,7 +336,9 @@ func (v *validator) isBOFDIndicator(code string) error {
 		// ECE institution is not BOFD
 		"N",
 		// ECE institution relationship to BOFD is undetermined
-		"U":
+		"U",
+		// Hack around for Bank of Franklin
+		"C":
 		return nil
 	}
 	return errors.New(msgInvalid)
