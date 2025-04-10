@@ -246,11 +246,6 @@ func (rdAddendumA *ReturnDetailAddendumA) fieldInclusion() error {
 			Value: rdAddendumA.ReturnLocationRoutingNumber,
 			Msg:   msgFieldInclusion + ", did you use ReturnDetailAddendumA()?"}
 	}
-	if rdAddendumA.ReturnLocationRoutingNumberField() == "000000000" {
-		return &FieldError{FieldName: "ReturnLocationRoutingNumber",
-			Value: rdAddendumA.ReturnLocationRoutingNumber,
-			Msg:   msgFieldInclusion + ", did you use ReturnDetailAddendumA()?"}
-	}
 	if rdAddendumA.BOFDEndorsementDate.IsZero() {
 		return &FieldError{FieldName: "BOFDEndorsementDate",
 			Value: rdAddendumA.BOFDEndorsementDate.String(),
