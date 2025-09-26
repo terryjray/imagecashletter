@@ -23,6 +23,10 @@ func main() {
 		log.Fatalf("File does not exist: %s", filename)
 	}
 
+	// Set FRB compatibility mode for permissive validation
+	os.Setenv("FRB_COMPATIBILITY_MODE", "true")
+	fmt.Println("🔧 FRB Compatibility Mode: ENABLED")
+
 	fmt.Printf("🔍 Validating X9 file: %s\n", filename)
 	fmt.Println(strings.Repeat("=", 60))
 

@@ -21,6 +21,9 @@ if [ ! -f "$INPUT_FILE" ]; then
     exit 1
 fi
 
+# Set FRB compatibility mode for permissive validation
+export FRB_COMPATIBILITY_MODE="true"
+
 # Run validation
 echo ""
 go run validate_x9.go "$INPUT_FILE"

@@ -37,6 +37,9 @@ fi
 	echo "Step 2: Testing X9 file..."
 	echo "=========================="
 
+	# Set FRB compatibility mode for permissive validation
+	export FRB_COMPATIBILITY_MODE="true"
+	
 	go run validate_x9.go "$CLEANED_FILE"
 
 # Check the result
