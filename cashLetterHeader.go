@@ -341,10 +341,16 @@ func (clh *CashLetterHeader) fieldInclusion() error {
 			Value: clh.CashLetterCreationTime.String(),
 			Msg:   msgFieldInclusion + ", did you use CashLetterHeader()?"}
 	}
-	if clh.CashLetterID == "" {
-		return &FieldError{FieldName: "CashLetterID",
-			Value: clh.CashLetterID,
-			Msg:   msgFieldInclusion + ", did you use CashLetterHeader()?"}
+	// Allow CashLetterID to be empty or spaces (common in some X9 files)
+	if clh.CashLetterID == "" || strings.TrimSpace(clh.CashLetterID) == "" {
+		// Only error if it's completely empty, not if it's just spaces
+		if clh.CashLetterID == "" {
+			return &FieldError{FieldName: "CashLetterID",
+				Value: clh.CashLetterID,
+				Msg:   msgFieldInclusion + ", did you use CashLetterHeader()?"}
+		}
+		// If it's just spaces, that's okay - set it to empty string
+		clh.CashLetterID = ""
 	}
 	// clh.ReturnsIndicator can be ""
 	return nil
