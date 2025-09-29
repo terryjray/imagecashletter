@@ -171,6 +171,24 @@ func (cdAddendumA *CheckDetailAddendumA) String() string {
 	return buf.String()
 }
 
+// sanitizePrintableASCII removes non-printable/non-ASCII bytes from s.
+// This is helpful when upstream vendors include unexpected characters that
+// should not invalidate the record content itself.
+func sanitizePrintableASCII(s string) string {
+    if s == "" {
+        return s
+    }
+    b := make([]byte, 0, len(s))
+    for i := 0; i < len(s); i++ {
+        c := s[i]
+        if c >= 0x20 && c <= 0x7E { // printable ASCII range
+            b = append(b, c)
+        }
+        // else drop the byte
+    }
+    return string(b)
+}
+
 // Validate performs image cash letter format rule checks on the record and returns an error if not Validated
 // The first error encountered is returned and stops the parsing.
 func (cdAddendumA *CheckDetailAddendumA) Validate() error {
@@ -189,7 +207,9 @@ func (cdAddendumA *CheckDetailAddendumA) Validate() error {
 		return &FieldError{FieldName: "BOFDAccountNumber",
 			Value: cdAddendumA.BOFDAccountNumber, Msg: err.Error()}
 	}
-	if err := cdAddendumA.isAlphanumericSpecial(cdAddendumA.BOFDBranchCode); err != nil {
+    // Pre-sanitize to remove non-printable bytes before validation
+    cdAddendumA.BOFDBranchCode = sanitizePrintableASCII(cdAddendumA.BOFDBranchCode)
+    if err := cdAddendumA.isAlphanumericSpecial(cdAddendumA.BOFDBranchCode); err != nil {
 		return &FieldError{FieldName: "BOFDBranchCode",
 			Value: cdAddendumA.BOFDBranchCode, Msg: err.Error()}
 	}
