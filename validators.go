@@ -259,7 +259,9 @@ func (v *validator) isReturnsIndicator(code string) error {
 		// Jack Henry can't fix their own code
 		"N",
 		// Reject Return
-		"J":
+		"J",
+		// Altered/Fictitious Item/Suspected Counterfeit/Counterfeit
+		"N":
 		return nil
 	}
 	return errors.New(msgInvalid)
