@@ -357,7 +357,9 @@ func (v *validator) isCorrectionIndicator(code int) error {
 		// Repaired with Operator intervention
 		3,
 		// Undetermined if repair has been done or not
-		4:
+    4,
+    // Vendor/extension code allowed by local policy
+    7:
 		return nil
 	}
 	return errors.New(msgInvalid)
