@@ -305,16 +305,21 @@ func (f *File) CashLetterIDUnique() error {
 	if f == nil || len(f.CashLetters) == 0 {
 		return ErrNilFile
 	}
-	cashLetterID := ""
+	seenIDs := make(map[string]bool)
 	for _, cl := range f.CashLetters {
 		if cl.CashLetterHeader == nil {
 			continue
 		}
-		if cashLetterID == cl.CashLetterHeader.CashLetterID {
-			msg := fmt.Sprintf(msgFileCashLetterID, cashLetterID)
+		// Skip empty CashLetterID values from uniqueness check - they're already flagged as warnings
+		// when reading files to accommodate problematic vendor implementations
+		if cl.CashLetterHeader.CashLetterID == "" {
+			continue
+		}
+		if seenIDs[cl.CashLetterHeader.CashLetterID] {
+			msg := fmt.Sprintf(msgFileCashLetterID, cl.CashLetterHeader.CashLetterID)
 			return &FileError{FieldName: "CashLetterID", Value: cl.CashLetterHeader.CashLetterID, Msg: msg}
 		}
-		cashLetterID = cl.CashLetterHeader.CashLetterID
+		seenIDs[cl.CashLetterHeader.CashLetterID] = true
 	}
 	return nil
 }

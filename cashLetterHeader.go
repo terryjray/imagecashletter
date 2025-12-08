@@ -342,11 +342,8 @@ func (clh *CashLetterHeader) fieldInclusion() error {
 			Value: clh.CashLetterCreationTime.String(),
 			Msg:   msgFieldInclusion + ", did you use CashLetterHeader()?"}
 	}
-	if clh.CashLetterID == "" {
-		return &FieldError{FieldName: "CashLetterID",
-			Value: clh.CashLetterID,
-			Msg:   msgFieldInclusion + ", did you use CashLetterHeader()?"}
-	}
+	// CashLetterID validation is lenient - empty values are allowed but will generate warnings
+	// when reading files to accommodate problematic vendor implementations
 	// clh.ReturnsIndicator can be ""
 	return nil
 }

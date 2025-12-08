@@ -50,6 +50,8 @@ type Reader struct {
 	lineNum int
 	// recordName holds the current record name being parsed.
 	recordName string
+	// warnings collects non-fatal validation warnings
+	warnings []string
 }
 
 // error creates a new ParseError based on err.
@@ -59,6 +61,22 @@ func (r *Reader) error(err error) error {
 		Record: r.recordName,
 		Err:    err,
 	}
+}
+
+// addWarning adds a non-fatal validation warning to the reader.
+func (r *Reader) addWarning(msg string) {
+	if r.warnings == nil {
+		r.warnings = make([]string, 0)
+	}
+	r.warnings = append(r.warnings, fmt.Sprintf("line:%d record:%s %s", r.lineNum, r.recordName, msg))
+}
+
+// Warnings returns all collected validation warnings.
+func (r *Reader) Warnings() []string {
+	if r.warnings == nil {
+		return []string{}
+	}
+	return r.warnings
 }
 
 // addCurrentCashLetter creates the current cash letter for the file being read. A successful
@@ -355,6 +373,10 @@ func (r *Reader) parseCashLetterHeader() error {
 	}
 	clh := NewCashLetterHeader()
 	clh.Parse(lineOut)
+	// Check for empty CashLetterID and add warning instead of failing
+	if clh.CashLetterID == "" {
+		r.addWarning(fmt.Sprintf("CashLetterID %s %s, did you use CashLetterHeader()", clh.CashLetterID, msgFieldInclusion))
+	}
 	// Ensure we have a valid CashLetterHeader
 	if err := clh.Validate(); err != nil {
 		return r.error(err)
