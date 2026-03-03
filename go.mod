@@ -2,7 +2,7 @@ module github.com/moov-io/imagecashletter
 
 go 1.24.0
 
-toolchain go1.25.1
+toolchain go1.26.0
 
 require (
 	github.com/antihax/optional v1.0.0
@@ -10,11 +10,11 @@ require (
 	github.com/go-kit/kit v0.13.0
 	github.com/google/uuid v1.6.0
 	github.com/gorilla/mux v1.8.1
-	github.com/moov-io/base v0.57.1
+	github.com/moov-io/base v0.61.1
 	github.com/prometheus/client_golang v1.23.2
 	github.com/stretchr/testify v1.11.1
 	github.com/vincent-petithory/dataurl v1.0.0
-	golang.org/x/oauth2 v0.31.0
+	golang.org/x/oauth2 v0.35.0
 )
 
 require (
@@ -31,11 +31,11 @@ require (
 	github.com/prometheus/client_model v0.6.2 // indirect
 	github.com/prometheus/common v0.66.1 // indirect
 	github.com/prometheus/procfs v0.16.1 // indirect
-	github.com/rickar/cal/v2 v2.1.23 // indirect
+	github.com/rickar/cal/v2 v2.1.27 // indirect
 	go.yaml.in/yaml/v2 v2.4.2 // indirect
-	golang.org/x/sys v0.35.0 // indirect
-	golang.org/x/text v0.28.0 // indirect
-	google.golang.org/protobuf v1.36.8 // indirect
+	golang.org/x/sys v0.41.0 // indirect
+	golang.org/x/text v0.34.0 // indirect
+	google.golang.org/protobuf v1.36.11 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
