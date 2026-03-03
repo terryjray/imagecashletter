@@ -303,7 +303,14 @@ func (r *Reader) parseLine() error { //nolint:gocyclo
 		if r.currentCashLetter.currentBundle != nil {
 			if err := r.currentCashLetter.currentBundle.Validate(); err != nil {
 				r.recordName = "Bundles"
-				return r.error(err)
+				// In FRB compatibility mode, treat AddendumCount bundle validation
+				// errors as non-fatal warnings so that we can continue processing
+				// bundles from vendors that misreport addendum counts.
+				if be, ok := err.(*BundleError); ok && be.FieldName == "AddendumCount" && IsFRBCompatibilityModeEnabled() {
+					r.addWarning(err.Error())
+				} else {
+					return r.error(err)
+				}
 			}
 			r.currentCashLetter.AddBundle(r.currentCashLetter.currentBundle)
 			r.currentCashLetter.currentBundle = new(Bundle)
