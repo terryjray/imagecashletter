@@ -1,0 +1,17 @@
+#!/bin/bash
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+NO_COLOR='\033[0m'
+
+while read oldrev newrev refname; do
+  # Check if the master branch was pushed
+  if [[ $refname =~ master$ ]]; then
+    printf "\n⏳${YELLOW}    Master ref received. Deploying master branch to production...${NO_COLOR}\n"
+    git --work-tree=/home/deploy/imagecashletter --git-dir=/home/deploy/repo/imagecashletter.git checkout -f
+    printf "\n✅${GREEN}    Deployment complete!${NO_COLOR}\n"
+  else
+    printf "\n⚠️${YELLOW}    Ref $refname successfully received but no deployment triggered.${NO_COLOR}\n"
+  fi
+done
